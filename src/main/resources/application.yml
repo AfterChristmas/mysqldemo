@@ -4,14 +4,26 @@ mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
   global-config:
     db-config:
-      logic-delete-value: 1 # �߼���ɾ��ֵ(Ĭ��Ϊ 1)
-      logic-not-delete-value: 0 # �߼�δɾ��ֵ(Ĭ��Ϊ 0)
+      logic-delete-value: 1
+      logic-not-delete-value: 0
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #����sql��־
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 spring:
-  autoconfigure:
-    exclude: com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure
   datasource:
+    dynamic:
+      primary: master #设置默认的数据源或者数据源组,默认值即为master
+      strict: false #设置严格模式,默认false不启动. 启动后在未匹配到指定数据源时候会抛出异常,不启动则使用默认数据源.
+      datasource:
+        master:
+          url: 'jdbc:mysql://192.168.199.129:3306/test1?useAffectedRows=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true'
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
+        slave_1:
+          url: 'jdbc:mysql://192.168.199.130:3306/test1?useAffectedRows=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true'
+          username: root
+          password: 123456
+          driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
       initial-size: 5
       max-active: 1000
@@ -32,7 +44,3 @@ spring:
         allow:
         web-stat-filter:
           enabled: true
-    url: 'jdbc:mysql://192.168.133.131:3306/test1?useAffectedRows=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true'
-    username: root
-    password: 123456
-    driver-class-name: com.mysql.cj.jdbc.Driver
